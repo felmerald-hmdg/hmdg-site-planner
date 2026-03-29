@@ -25,31 +25,34 @@ if ( ! defined( 'ABSPATH' ) ) {
     <section class="hmdg-step hmdg-hero" id="hmdg-step-hero" data-step="1">
         <div class="hmdg-hero__inner">
 
-            <p class="hmdg-hero__label">
-                <?php esc_html_e( 'HMDG website builder', 'hmdg-site-planner' ); ?>
-            </p>
+            <div class="hmdg-hero__eyebrow">
+                <span class="hmdg-hero__eyebrow-dot" aria-hidden="true"></span>
+                <?php esc_html_e( 'HMDG AI Website Builder', 'hmdg-site-planner' ); ?>
+            </div>
 
             <h1 class="hmdg-hero__headline">
                 <?php esc_html_e( 'Generate sitemaps', 'hmdg-site-planner' ); ?><br>
                 <?php esc_html_e( 'and wireframes', 'hmdg-site-planner' ); ?><br>
-                <?php esc_html_e( 'with HMDG', 'hmdg-site-planner' ); ?>
+                <span class="hmdg-hero__headline-accent"><?php esc_html_e( 'with HMDG', 'hmdg-site-planner' ); ?></span>
             </h1>
 
             <p class="hmdg-hero__sub">
-                <?php esc_html_e( 'Go from concept to wireframes in record time with AI Site Planner,', 'hmdg-site-planner' ); ?><br>
+                <?php esc_html_e( 'Go from concept to wireframes in record time with AI Site Planner,', 'hmdg-site-planner' ); ?><br class="hmdg-hero__sub-br">
                 <?php esc_html_e( 'ready for client review, feedback, and fast revisions.', 'hmdg-site-planner' ); ?>
             </p>
 
-            <div class="hmdg-hero__input-wrap">
+            <div class="hmdg-hero__prompt-bar">
                 <input
                     type="text"
                     id="hmdg-hero-prompt"
                     class="hmdg-hero__input"
-                    placeholder="<?php esc_attr_e( 'Describe your project, and get an AI-powered wireframe in minutes…', 'hmdg-site-planner' ); ?>"
                     autocomplete="off"
+                    aria-label="<?php esc_attr_e( 'Describe your project', 'hmdg-site-planner' ); ?>"
                 />
-                <button class="hmdg-btn hmdg-btn--primary hmdg-hero__cta" id="hmdg-start" type="button">
-                    <span class="hmdg-hero__cta-icon" aria-hidden="true">✦</span>
+                <button class="hmdg-hero__cta" id="hmdg-start" type="button">
+                    <svg class="hmdg-hero__cta-icon" width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                        <path d="M7 1l1.8 4.2L13 7l-4.2 1.8L7 13 5.2 8.8 1 7l4.2-1.8L7 1z" fill="currentColor"/>
+                    </svg>
                     <?php esc_html_e( 'Generate', 'hmdg-site-planner' ); ?>
                 </button>
             </div>

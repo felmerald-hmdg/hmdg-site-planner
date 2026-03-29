@@ -1,6 +1,6 @@
 <?php
 /**
- * Questionnaire partial — Phase 1 Step 2 (Wizard).
+ * Questionnaire partial — Phase 1 Step 2 (Chat Planner UI).
  *
  * @package HMDG_Site_Planner
  */
@@ -8,365 +8,121 @@
 if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
-
-$wz_steps = [
-    1 => __( 'Business Overview', 'hmdg-site-planner' ),
-    2 => __( 'Services & Goals',  'hmdg-site-planner' ),
-    3 => __( 'Brand & Design',    'hmdg-site-planner' ),
-    4 => __( 'Features',          'hmdg-site-planner' ),
-    5 => __( 'Additional Info',   'hmdg-site-planner' ),
-];
 ?>
 
-<div class="hmdg-q-wrap">
+<div class="hmdg-chat-layout">
 
-    <!-- Header -->
-    <div class="hmdg-q-header">
-        <button type="button" class="hmdg-q-back" id="hmdg-q-back">
-            ← <?php esc_html_e( 'Back', 'hmdg-site-planner' ); ?>
-        </button>
-        <div class="hmdg-q-header__brand">
-            <span class="hmdg-q-phase-badge">Phase 1</span>
-            <span class="hmdg-q-header__title">
-                <?php esc_html_e( 'Site Planner', 'hmdg-site-planner' ); ?>
+    <!-- ===================================================
+         LEFT PANEL: Guided Chat Thread
+    ==================================================== -->
+    <div class="hmdg-chat-left">
+
+        <!-- Top bar -->
+        <div class="hmdg-chat-topbar">
+            <button id="hmdg-q-back" class="hmdg-chat-back-btn" type="button">
+                <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 5l-7 7 7 7"/></svg>
+                <?php esc_html_e( 'Back', 'hmdg-site-planner' ); ?>
+            </button>
+            <span class="hmdg-chat-topbar-title">
+                <?php esc_html_e( 'Generate: Brief', 'hmdg-site-planner' ); ?>
             </span>
+            <div class="hmdg-chat-topbar-gap"></div>
         </div>
-    </div>
 
-    <!-- Intro -->
-    <div class="hmdg-q-intro">
-        <h2><?php esc_html_e( 'Tell us about your project', 'hmdg-site-planner' ); ?></h2>
-        <p><?php esc_html_e( 'Fill in the details below. The more you share, the better your site plan.', 'hmdg-site-planner' ); ?></p>
-    </div>
-
-    <!-- Wizard Progress Bar -->
-    <div class="hmdg-wz-progress" id="hmdg-wz-progress" aria-label="<?php esc_attr_e( 'Form progress', 'hmdg-site-planner' ); ?>">
-        <div class="hmdg-wz-steps">
-            <?php foreach ( $wz_steps as $num => $label ) : ?>
-                <?php if ( $num > 1 ) : ?>
-                    <div class="hmdg-wz-connector" aria-hidden="true"></div>
-                <?php endif; ?>
-                <div class="hmdg-wz-indicator <?php echo 1 === $num ? 'is-active' : ''; ?>"
-                     data-wz-indicator="<?php echo (int) $num; ?>"
-                     aria-current="<?php echo 1 === $num ? 'step' : 'false'; ?>">
-                    <div class="hmdg-wz-indicator__dot"><?php echo (int) $num; ?></div>
-                    <span class="hmdg-wz-indicator__label"><?php echo esc_html( $label ); ?></span>
-                </div>
-            <?php endforeach; ?>
+        <!-- Scrollable message thread -->
+        <div
+            class="hmdg-chat-thread"
+            id="hmdg-chat-thread"
+            role="log"
+            aria-live="polite"
+            aria-label="<?php esc_attr_e( 'Chat conversation', 'hmdg-site-planner' ); ?>"
+        >
+            <!-- Messages injected by JS -->
         </div>
-        <div class="hmdg-wz-bar" aria-hidden="true">
-            <div class="hmdg-wz-bar__fill" id="hmdg-wz-bar-fill" style="width:0%"></div>
-        </div>
-    </div>
 
-    <!-- Form -->
-    <form id="hmdg-questionnaire-form" novalidate>
+        <!-- Fixed input area -->
+        <div class="hmdg-chat-input-area">
 
-        <!-- ---- Step 1: Business Overview ---- -->
-        <div class="hmdg-q-section" data-wz-step="1">
-            <h3 class="hmdg-q-section__title">
-                <span class="hmdg-q-section__num">01</span>
-                <?php esc_html_e( 'Business Overview', 'hmdg-site-planner' ); ?>
-            </h3>
-            <div class="row g-3">
+            <!-- Quick-reply chips (shown per question) -->
+            <div class="hmdg-chat-chips" id="hmdg-chat-chips" hidden></div>
 
-                <div class="col-12">
-                    <label class="hmdg-q-label" for="hmdg-description">
-                        <?php esc_html_e( 'Project Description', 'hmdg-site-planner' ); ?>
-                    </label>
-                    <textarea
-                        id="hmdg-description"
-                        name="description"
-                        class="hmdg-q-textarea"
-                        rows="3"
-                        placeholder="<?php esc_attr_e( 'Briefly describe your project…', 'hmdg-site-planner' ); ?>"
-                    ></textarea>
-                </div>
+            <!-- Text input row -->
+            <div class="hmdg-chat-inputrow">
+                <button
+                    class="hmdg-chat-attach-btn"
+                    type="button"
+                    disabled
+                    title="<?php esc_attr_e( 'Attach file', 'hmdg-site-planner' ); ?>"
+                    aria-label="<?php esc_attr_e( 'Attach file', 'hmdg-site-planner' ); ?>"
+                >
+                    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
+                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/>
+                    </svg>
+                </button>
 
-                <div class="col-md-6">
-                    <label class="hmdg-q-label" for="hmdg-contact-name">
-                        <?php esc_html_e( 'Contact Person Name', 'hmdg-site-planner' ); ?> <span class="hmdg-req">*</span>
-                    </label>
-                    <input type="text" id="hmdg-contact-name" name="contact_name" class="hmdg-q-input" required
-                        placeholder="<?php esc_attr_e( 'e.g. John Smith', 'hmdg-site-planner' ); ?>"
-                        autocomplete="name">
-                </div>
+                <textarea
+                    id="hmdg-chat-input"
+                    class="hmdg-chat-textarea"
+                    placeholder="<?php esc_attr_e( 'Write an answer or upload files...', 'hmdg-site-planner' ); ?>"
+                    rows="1"
+                    aria-label="<?php esc_attr_e( 'Your answer', 'hmdg-site-planner' ); ?>"
+                ></textarea>
 
-                <div class="col-md-6">
-                    <label class="hmdg-q-label" for="hmdg-business-name">
-                        <?php esc_html_e( 'Business / Company Name', 'hmdg-site-planner' ); ?> <span class="hmdg-req">*</span>
-                    </label>
-                    <input type="text" id="hmdg-business-name" name="business_name" class="hmdg-q-input" required
-                        placeholder="<?php esc_attr_e( 'e.g. Acme Agency', 'hmdg-site-planner' ); ?>">
-                </div>
+                <button
+                    class="hmdg-chat-send-btn"
+                    id="hmdg-chat-send"
+                    type="button"
+                    aria-label="<?php esc_attr_e( 'Send answer', 'hmdg-site-planner' ); ?>"
+                >
+                    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                        <line x1="22" y1="2" x2="11" y2="13"/>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+                    </svg>
+                </button>
+            </div>
 
-                <div class="col-md-6">
-                    <label class="hmdg-q-label" for="hmdg-client-email">
-                        <?php esc_html_e( 'Client Email', 'hmdg-site-planner' ); ?> <span class="hmdg-req">*</span>
-                    </label>
-                    <input type="email" id="hmdg-client-email" name="client_email" class="hmdg-q-input" required
-                        placeholder="<?php esc_attr_e( 'client@example.com', 'hmdg-site-planner' ); ?>"
-                        autocomplete="email">
-                </div>
+            <!-- Helper actions row -->
+            <div class="hmdg-chat-helpers">
+                <button type="button" class="hmdg-chat-helper-btn" id="hmdg-chat-hint-btn">
+                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                        <circle cx="12" cy="12" r="10"/>
+                        <line x1="12" y1="8" x2="12" y2="12"/>
+                        <line x1="12" y1="16" x2="12.01" y2="16"/>
+                    </svg>
+                    <?php esc_html_e( 'What should I write?', 'hmdg-site-planner' ); ?>
+                </button>
+                <button type="button" class="hmdg-chat-helper-btn" id="hmdg-chat-skip-btn">
+                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                        <polyline points="9 18 15 12 9 6"/>
+                    </svg>
+                    <?php esc_html_e( 'Skip question', 'hmdg-site-planner' ); ?>
+                </button>
+            </div>
 
-                <div class="col-md-6">
-                    <label class="hmdg-q-label" for="hmdg-client-phone">
-                        <?php esc_html_e( 'Phone / Contact Number', 'hmdg-site-planner' ); ?> <span class="hmdg-req">*</span>
-                    </label>
-                    <input type="tel" id="hmdg-client-phone" name="client_phone" class="hmdg-q-input" required
-                        placeholder="<?php esc_attr_e( 'e.g. +44 7700 900000', 'hmdg-site-planner' ); ?>"
-                        autocomplete="tel">
-                </div>
+            <!-- Error message -->
+            <div id="hmdg-q-error" class="hmdg-chat-error" hidden></div>
 
-                <div class="col-md-6">
-                    <label class="hmdg-q-label" for="hmdg-business-type">
-                        <?php esc_html_e( 'Business Type', 'hmdg-site-planner' ); ?> <span class="hmdg-req">*</span>
-                    </label>
-                    <select id="hmdg-business-type" name="business_type" class="hmdg-q-select" required>
-                        <option value=""><?php esc_html_e( 'Select type…', 'hmdg-site-planner' ); ?></option>
-                        <?php
-                        $types = [
-                            'Agency', 'E-commerce', 'Restaurant / Food', 'Medical / Healthcare',
-                            'Real Estate', 'Law Firm', 'Fitness / Wellness', 'Salon / Beauty',
-                            'Tech Startup', 'Education', 'Non-Profit', 'Construction',
-                            'Finance / Accounting', 'Photography / Creative', 'Consulting', 'Other',
-                        ];
-                        foreach ( $types as $t ) :
-                        ?>
-                            <option value="<?php echo esc_attr( $t ); ?>"><?php echo esc_html( $t ); ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
+        </div><!-- .hmdg-chat-input-area -->
 
-                <div class="col-md-6">
-                    <label class="hmdg-q-label" for="hmdg-location">
-                        <?php esc_html_e( 'Business Location', 'hmdg-site-planner' ); ?> <span class="hmdg-req">*</span>
-                    </label>
-                    <input type="text" id="hmdg-location" name="location" class="hmdg-q-input" required
-                        placeholder="<?php esc_attr_e( 'City, Country', 'hmdg-site-planner' ); ?>">
-                </div>
+    </div><!-- .hmdg-chat-left -->
 
-                <div class="col-md-6">
-                    <label class="hmdg-q-label" for="hmdg-language">
-                        <?php esc_html_e( 'Site Language', 'hmdg-site-planner' ); ?>
-                    </label>
-                    <select id="hmdg-language" name="language" class="hmdg-q-select">
-                        <?php
-                        $langs = [ 'English', 'Spanish', 'French', 'German', 'Portuguese', 'Italian', 'Dutch', 'Filipino', 'Other' ];
-                        foreach ( $langs as $l ) :
-                        ?>
-                            <option value="<?php echo esc_attr( $l ); ?>"><?php echo esc_html( $l ); ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-
+    <!-- ===================================================
+         RIGHT PANEL: Live Brief Summary
+    ==================================================== -->
+    <div class="hmdg-chat-right">
+        <div class="hmdg-brief-wrap">
+            <h2 class="hmdg-brief-heading">
+                <?php esc_html_e( 'Brief Summary', 'hmdg-site-planner' ); ?>
+            </h2>
+            <div id="hmdg-brief-body">
+                <!-- Section entries populated dynamically by JS -->
             </div>
         </div>
+        <!-- Subtle bottom gradient -->
+        <div class="hmdg-brief-fade" aria-hidden="true"></div>
+    </div><!-- .hmdg-chat-right -->
 
-        <!-- ---- Step 2: Services & Goals ---- -->
-        <div class="hmdg-q-section" data-wz-step="2" hidden>
-            <h3 class="hmdg-q-section__title">
-                <span class="hmdg-q-section__num">02</span>
-                <?php esc_html_e( 'Services & Goals', 'hmdg-site-planner' ); ?>
-            </h3>
-            <div class="row g-3">
+</div><!-- .hmdg-chat-layout -->
 
-                <div class="col-12">
-                    <label class="hmdg-q-label" for="hmdg-services">
-                        <?php esc_html_e( 'Services / Products', 'hmdg-site-planner' ); ?> <span class="hmdg-req">*</span>
-                    </label>
-                    <textarea id="hmdg-services" name="services" class="hmdg-q-textarea" rows="3" required
-                        placeholder="<?php esc_attr_e( 'List your main services or products…', 'hmdg-site-planner' ); ?>"></textarea>
-                </div>
-
-                <div class="col-12">
-                    <label class="hmdg-q-label" for="hmdg-goals">
-                        <?php esc_html_e( 'Business Goals', 'hmdg-site-planner' ); ?> <span class="hmdg-req">*</span>
-                    </label>
-                    <textarea id="hmdg-goals" name="goals" class="hmdg-q-textarea" rows="3" required
-                        placeholder="<?php esc_attr_e( 'e.g. Generate leads, increase bookings, sell products…', 'hmdg-site-planner' ); ?>"></textarea>
-                </div>
-
-                <div class="col-12">
-                    <label class="hmdg-q-label" for="hmdg-audience">
-                        <?php esc_html_e( 'Target Audience', 'hmdg-site-planner' ); ?> <span class="hmdg-req">*</span>
-                    </label>
-                    <textarea id="hmdg-audience" name="audience" class="hmdg-q-textarea" rows="2" required
-                        placeholder="<?php esc_attr_e( 'Who are your ideal customers?', 'hmdg-site-planner' ); ?>"></textarea>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- ---- Step 3: Brand & Design ---- -->
-        <div class="hmdg-q-section" data-wz-step="3" hidden>
-            <h3 class="hmdg-q-section__title">
-                <span class="hmdg-q-section__num">03</span>
-                <?php esc_html_e( 'Brand & Design', 'hmdg-site-planner' ); ?>
-            </h3>
-            <div class="row g-3">
-
-                <div class="col-md-6">
-                    <label class="hmdg-q-label" for="hmdg-tone">
-                        <?php esc_html_e( 'Tone & Voice', 'hmdg-site-planner' ); ?>
-                    </label>
-                    <select id="hmdg-tone" name="tone" class="hmdg-q-select">
-                        <option value="Professional">Professional</option>
-                        <option value="Friendly & Approachable">Friendly &amp; Approachable</option>
-                        <option value="Bold & Modern">Bold &amp; Modern</option>
-                        <option value="Minimalist">Minimalist</option>
-                        <option value="Luxury & Premium">Luxury &amp; Premium</option>
-                        <option value="Playful & Fun">Playful &amp; Fun</option>
-                        <option value="Authoritative & Trustworthy">Authoritative &amp; Trustworthy</option>
-                    </select>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="hmdg-q-label" for="hmdg-brand-style">
-                        <?php esc_html_e( 'Brand Style', 'hmdg-site-planner' ); ?>
-                    </label>
-                    <select id="hmdg-brand-style" name="brand_style" class="hmdg-q-select">
-                        <option value="Modern & Clean">Modern &amp; Clean</option>
-                        <option value="Bold & Colorful">Bold &amp; Colorful</option>
-                        <option value="Minimal & White Space">Minimal &amp; White Space</option>
-                        <option value="Corporate">Corporate</option>
-                        <option value="Creative & Artistic">Creative &amp; Artistic</option>
-                        <option value="Dark & Edgy">Dark &amp; Edgy</option>
-                        <option value="Warm & Earthy">Warm &amp; Earthy</option>
-                    </select>
-                </div>
-
-                <div class="col-12">
-                    <label class="hmdg-q-label">
-                        <?php esc_html_e( 'Showcase / Portfolio', 'hmdg-site-planner' ); ?>
-                    </label>
-                    <div class="hmdg-q-toggle-group">
-                        <label class="hmdg-q-toggle">
-                            <input type="radio" name="showcase" value="Yes"> Yes
-                        </label>
-                        <label class="hmdg-q-toggle">
-                            <input type="radio" name="showcase" value="No" checked> No
-                        </label>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- ---- Step 4: Features & Integrations ---- -->
-        <div class="hmdg-q-section" data-wz-step="4" hidden>
-            <h3 class="hmdg-q-section__title">
-                <span class="hmdg-q-section__num">04</span>
-                <?php esc_html_e( 'Features & Integrations', 'hmdg-site-planner' ); ?>
-            </h3>
-            <div class="row g-3">
-
-                <div class="col-12">
-                    <label class="hmdg-q-label"><?php esc_html_e( 'Key Features', 'hmdg-site-planner' ); ?></label>
-                    <div class="hmdg-q-checkboxes">
-                        <?php
-                        $features = [
-                            'Contact Form', 'Portfolio / Gallery', 'Blog', 'Booking System',
-                            'Live Chat', 'E-commerce / Shop', 'Client Portal', 'FAQ Section',
-                            'Testimonials', 'Team Page', 'Events', 'Newsletter Signup',
-                        ];
-                        foreach ( $features as $f ) :
-                        ?>
-                            <label class="hmdg-q-checkbox">
-                                <input type="checkbox" name="features[]" value="<?php echo esc_attr( $f ); ?>">
-                                <span><?php echo esc_html( $f ); ?></span>
-                            </label>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-
-                <div class="col-12">
-                    <label class="hmdg-q-label"><?php esc_html_e( 'Integrations', 'hmdg-site-planner' ); ?></label>
-                    <div class="hmdg-q-checkboxes">
-                        <?php
-                        $integrations = [
-                            'CRM', 'Email Marketing', 'Payment Gateway', 'Booking Software',
-                            'Google Analytics', 'Facebook Pixel', 'WhatsApp', 'Social Media',
-                        ];
-                        foreach ( $integrations as $i ) :
-                        ?>
-                            <label class="hmdg-q-checkbox">
-                                <input type="checkbox" name="integrations[]" value="<?php echo esc_attr( $i ); ?>">
-                                <span><?php echo esc_html( $i ); ?></span>
-                            </label>
-                        <?php endforeach; ?>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- ---- Step 5: Additional Info ---- -->
-        <div class="hmdg-q-section" data-wz-step="5" hidden>
-            <h3 class="hmdg-q-section__title">
-                <span class="hmdg-q-section__num">05</span>
-                <?php esc_html_e( 'Additional Info', 'hmdg-site-planner' ); ?>
-                <span class="hmdg-q-optional"><?php esc_html_e( '(optional)', 'hmdg-site-planner' ); ?></span>
-            </h3>
-            <div class="row g-3">
-
-                <div class="col-12">
-                    <label class="hmdg-q-label" for="hmdg-competitors">
-                        <?php esc_html_e( 'Competitors', 'hmdg-site-planner' ); ?>
-                    </label>
-                    <textarea id="hmdg-competitors" name="competitors" class="hmdg-q-textarea" rows="2"
-                        placeholder="<?php esc_attr_e( 'List competitor websites or businesses…', 'hmdg-site-planner' ); ?>"></textarea>
-                </div>
-
-                <div class="col-md-6">
-                    <label class="hmdg-q-label" for="hmdg-hosting">
-                        <?php esc_html_e( 'Hosting Platform', 'hmdg-site-planner' ); ?>
-                    </label>
-                    <input type="text" id="hmdg-hosting" name="hosting" class="hmdg-q-input"
-                        placeholder="<?php esc_attr_e( 'e.g. SiteGround, WP Engine…', 'hmdg-site-planner' ); ?>">
-                </div>
-
-                <div class="col-12">
-                    <label class="hmdg-q-label" for="hmdg-requirements">
-                        <?php esc_html_e( 'Additional Requirements', 'hmdg-site-planner' ); ?>
-                    </label>
-                    <textarea id="hmdg-requirements" name="requirements" class="hmdg-q-textarea" rows="3"
-                        placeholder="<?php esc_attr_e( 'Any other details, must-haves, or special requests…', 'hmdg-site-planner' ); ?>"></textarea>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Error container -->
-        <div class="hmdg-wz-error-wrap">
-            <div class="hmdg-q-error" id="hmdg-q-error" hidden></div>
-        </div>
-
-        <!-- Wizard Navigation -->
-        <div class="hmdg-wz-nav" id="hmdg-wz-nav">
-            <button type="button" class="hmdg-btn hmdg-btn--secondary" id="hmdg-wz-prev" hidden>
-                ← <?php esc_html_e( 'Previous', 'hmdg-site-planner' ); ?>
-            </button>
-
-            <span class="hmdg-wz-counter" id="hmdg-wz-counter" aria-live="polite">
-                <?php esc_html_e( 'Step 1 of 5', 'hmdg-site-planner' ); ?>
-            </span>
-
-            <button type="button" class="hmdg-btn hmdg-btn--primary" id="hmdg-wz-next">
-                <?php esc_html_e( 'Next', 'hmdg-site-planner' ); ?> →
-            </button>
-
-            <button type="submit" class="hmdg-btn hmdg-btn--primary hmdg-q-submit" id="hmdg-q-submit" hidden>
-                <span class="hmdg-q-submit__icon" aria-hidden="true">✦</span>
-                <?php esc_html_e( 'Generate Site Plan', 'hmdg-site-planner' ); ?>
-            </button>
-        </div>
-
-        <div class="hmdg-wz-note-wrap">
-            <p class="hmdg-q-footer__note" id="hmdg-wz-note" hidden>
-                <?php esc_html_e( 'Your plan will be generated using AI — this may take 15–30 seconds.', 'hmdg-site-planner' ); ?>
-            </p>
-        </div>
-
-    </form>
-</div><!-- .hmdg-q-wrap -->
+<!-- Hidden field so bindHero() can pass the initial project description into the chat -->
+<input type="hidden" id="hmdg-description" name="description">
