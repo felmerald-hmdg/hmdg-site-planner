@@ -116,6 +116,21 @@ class HMDG_Shortcode {
     public function render(): string {
         ob_start();
         require HMDG_SP_DIR . 'templates/shortcode-display.php';
-        return ob_get_clean();
+        $html = ob_get_clean();
+
+        // Remove <br> tags injected by wpautop between HTML elements.
+        $html = preg_replace( '/>\s*<br\s*\/?>\s*</i', '><', $html );
+        $html = preg_replace( '/<br\s*\/?>\s*</i',     '<',  $html );
+        $html = preg_replace( '/>\s*<br\s*\/?>/i',     '>',  $html );
+
+        // Remove empty <p></p> pairs injected by wpautop.
+        $html = preg_replace( '/<p>\s*<\/p>/i', '', $html );
+
+        // Unwrap block elements incorrectly wrapped in <p> by wpautop.
+        $block = 'div|section|article|aside|header|footer|nav|main|ul|ol|li|table|thead|tbody|tr|td|th|form|fieldset|textarea|button|input|select|h[1-6]';
+        $html  = preg_replace( '/<p>(\s*<(?:' . $block . ')[> ])/i',           '$1', $html );
+        $html  = preg_replace( '/(<\/(?:' . $block . ')>)\s*<\/p>/i',          '$1', $html );
+
+        return $html;
     }
 }

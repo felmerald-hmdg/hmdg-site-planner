@@ -47,57 +47,10 @@ if ( ! defined( 'ABSPATH' ) ) {
             <div class="hmdg-chat-chips" id="hmdg-chat-chips" hidden></div>
 
             <!-- Text input row -->
-            <div class="hmdg-chat-inputrow">
-                <button
-                    class="hmdg-chat-attach-btn"
-                    type="button"
-                    disabled
-                    title="<?php esc_attr_e( 'Attach file', 'hmdg-site-planner' ); ?>"
-                    aria-label="<?php esc_attr_e( 'Attach file', 'hmdg-site-planner' ); ?>"
-                >
-                    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true">
-                        <path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/>
-                    </svg>
-                </button>
-
-                <textarea
-                    id="hmdg-chat-input"
-                    class="hmdg-chat-textarea"
-                    placeholder="<?php esc_attr_e( 'Write an answer or upload files...', 'hmdg-site-planner' ); ?>"
-                    rows="1"
-                    aria-label="<?php esc_attr_e( 'Your answer', 'hmdg-site-planner' ); ?>"
-                ></textarea>
-
-                <button
-                    class="hmdg-chat-send-btn"
-                    id="hmdg-chat-send"
-                    type="button"
-                    aria-label="<?php esc_attr_e( 'Send answer', 'hmdg-site-planner' ); ?>"
-                >
-                    <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                        <line x1="22" y1="2" x2="11" y2="13"/>
-                        <polygon points="22 2 15 22 11 13 2 9 22 2"/>
-                    </svg>
-                </button>
-            </div>
+            <div class="hmdg-chat-inputrow"><button class="hmdg-chat-attach-btn" type="button" disabled title="<?php esc_attr_e( 'Attach file', 'hmdg-site-planner' ); ?>" aria-label="<?php esc_attr_e( 'Attach file', 'hmdg-site-planner' ); ?>"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M21.44 11.05l-9.19 9.19a6 6 0 01-8.49-8.49l9.19-9.19a4 4 0 015.66 5.66l-9.2 9.19a2 2 0 01-2.83-2.83l8.49-8.48"/></svg></button><textarea id="hmdg-chat-input" class="hmdg-chat-textarea" placeholder="<?php esc_attr_e( 'Write an answer or upload files...', 'hmdg-site-planner' ); ?>" rows="1" aria-label="<?php esc_attr_e( 'Your answer', 'hmdg-site-planner' ); ?>"></textarea><button class="hmdg-chat-send-btn" id="hmdg-chat-send" type="button" aria-label="<?php esc_attr_e( 'Send answer', 'hmdg-site-planner' ); ?>"><svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></button></div>
 
             <!-- Helper actions row -->
-            <div class="hmdg-chat-helpers">
-                <button type="button" class="hmdg-chat-helper-btn" id="hmdg-chat-hint-btn">
-                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                        <circle cx="12" cy="12" r="10"/>
-                        <line x1="12" y1="8" x2="12" y2="12"/>
-                        <line x1="12" y1="16" x2="12.01" y2="16"/>
-                    </svg>
-                    <?php esc_html_e( 'What should I write?', 'hmdg-site-planner' ); ?>
-                </button>
-                <button type="button" class="hmdg-chat-helper-btn" id="hmdg-chat-skip-btn">
-                    <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                        <polyline points="9 18 15 12 9 6"/>
-                    </svg>
-                    <?php esc_html_e( 'Skip question', 'hmdg-site-planner' ); ?>
-                </button>
-            </div>
+            <div class="hmdg-chat-helpers"><button type="button" class="hmdg-chat-helper-btn" id="hmdg-chat-hint-btn"><?php esc_html_e( 'What should I write?', 'hmdg-site-planner' ); ?></button><button type="button" class="hmdg-chat-helper-btn" id="hmdg-chat-skip-btn"><svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg><?php esc_html_e( 'Skip question', 'hmdg-site-planner' ); ?></button></div>
 
             <!-- Error message -->
             <div id="hmdg-q-error" class="hmdg-chat-error" hidden></div>

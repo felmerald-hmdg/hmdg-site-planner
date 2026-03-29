@@ -221,4 +221,30 @@ Use the **Test API Connection** button to verify your key before use.
 
 ---
 
+## API Key Requirements
+
+> **Important:** This plugin requires a paid API key to generate AI outputs. It will not function without one.
+
+### Anthropic (Claude) — Recommended
+
+The default and recommended AI provider is **Anthropic Claude**.
+
+- Get your API key at [console.anthropic.com](https://console.anthropic.com)
+- You must **add billing / payment details** to your Anthropic account before the key will work
+- A free trial may be available for new accounts, but production use requires a funded account
+- Recommended model: **Claude Opus 4.6** (most capable — set in plugin settings)
+
+### OpenAI (GPT) — Alternative
+
+- Get your API key at [platform.openai.com/api-keys](https://platform.openai.com/api-keys)
+- Requires a funded OpenAI account
+
+### Notes
+
+- API keys are stored securely in WordPress options and are never exposed to the front end
+- Usage is billed per request by the provider — Anthropic charges per input/output token
+- If the **Test API Connection** button returns an error, check that your account has an active payment method and sufficient credits
+
+---
+
 *Developed by HMDG*
